@@ -88,7 +88,7 @@ What is terraform.tfvars ?
     > When you delcare the variable values in this file, you don't have to explicitly mention this file as terraform picks "terraform.tfvars" by default
     > When you declare some value in dev.tfvars, qa.tfvars, prod.tfvars, then while running terraform commands, we need to mention that file
 
-How to run a tf command that has xyz.tfvas,
+How to run a tf command that has xyz.tfvars,
     $ terraform init ; terraform plan --var-file=dev.tfvars 
 
 How to run a tf command that has xyz.tfvas & cli varaibles,

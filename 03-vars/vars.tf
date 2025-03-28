@@ -61,7 +61,9 @@ output "state_op" {
   value = var.state
 }
 
-variable "environment" {}
+variable "environment" {
+  default = "main"
+}
 output "environment_op" {
   value = "Current environment is ${var.environment}"
 }
