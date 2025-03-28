@@ -31,7 +31,7 @@ output "sample_op" {
 }
 
 output "sample_op_x" {
-  value = "${var.sample_list[1]} is a popular IAC Tool and it supports more than ${var.sample_list[0]} providers and its ${var.sample_list[2]} "
+  value = "${var.sample_list[0]} is a popular IAC Tool and it supports more than ${var.sample_list[2]} providers and its ${var.sample_list[1]} "
 }
 
 # Map Variable
