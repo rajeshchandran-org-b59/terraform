@@ -1,5 +1,12 @@
 # learn-terraform
 
+<!-- NFR -->
+Non-Functional Requirements ( NFR )
+    > Code Should Be Dry.
+    > Credentials should not be hardcoded.
+    > Re-run of the script should not fail.
+    > Code should be multi-environment compatible.
+
 Terraform is a very powerful Infrastructure As A Code Tool which can be managed via HCL ( Hashicorp Language )
 
 > Points to be noted when dealing terraform!!!
@@ -42,3 +49,50 @@ How EC2 instance can authorize to AWS Cloud and provision resources ?
     2) If you're changing tags or changeing roles, it's happens without any downtime
     3) If you're changing instance_type, it's disruptive, involves downtime.
     4) If you're changing the ami, then it's destructive and then it creates.
+
+> Speak more about: argument vs attribute
+
+> Variables in terraform: 
+    This is the most interesting and tricky concept that's going to make code dry and parameterize the code: 
+
+    # Supported datatypes in terraform
+        # 1) Numbers  - No need to enclose them in quotes
+        # 2) Boolents - No need to enclose them in quotes
+        # 3) Strings - Need to enclose them in quotes ( Only double quotes. )
+
+        Note: 
+            In terraform, there is no concept of single quotes.
+
+> Variables are of 3 types: 
+    1) Regular variable, a key with a single value. 
+    2) List variable, a key with multiple values.
+    3) Map variable, a key with multiple key value pairds
+
+```
+    var.sample    : use this only if this is not in between a set of strings 
+    ${var.sample} : use this if your varaible has to be enclosed in a set of strings
+```
+
+> Outputs:
+    1) They play an important role in terraform
+    2) Outputs are used to print something
+    3) They are also used to share the information between terraform modules.
+
+Naming Standards:
+    1) Either use lowerCase letters with _ or - only
+    2) follow camelCase 
+
+
+What is terraform.tfvars ?
+    > This is a file that holds all the default values that needs to be used irrespective of the environment.
+    > When you delcare the variable values in this file, you don't have to explicitly mention this file as terraform picks "terraform.tfvars" by default
+    > When you declare some value in dev.tfvars, qa.tfvars, prod.tfvars, then while running terraform commands, we need to mention that file
+
+How to run a tf command that has xyz.tfvas,
+    $ terraform init ; terraform plan --var-file=dev.tfvars 
+
+How to run a tf command that has xyz.tfvas & cli varaibles,
+    $ terraform init ; terraform plan --var-file=dev.tfvars  -var environment=cli
+
+Variable Priority ?
+    cliVariables > ***.tfvars > terraform.tfvars > terraform.auto.tfvars

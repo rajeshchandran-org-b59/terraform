@@ -1,0 +1,2 @@
+state       = "AndhraPradesh"
+environment = "terraform"
