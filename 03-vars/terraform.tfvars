@@ -1,2 +1,2 @@
 state       = "AndhraPradesh"
-#environment = "terraform"
+environment = "terraform"
