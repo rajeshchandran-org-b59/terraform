@@ -31,7 +31,7 @@ output "sample_op" {
 }
 
 output "sample_op_x" {
-  value = "${var.sample_list[0]} is a popular IAC Tool and it supports more than ${var.sample_list[2]} providers and its ${var.sample_list[1]} "
+  value = "${var.sample_list[1]} is a popular IAC Tool and it supports more than ${var.sample_list[0]} providers and its ${var.sample_list[2]} "
 }
 
 # Map Variable
@@ -61,9 +61,7 @@ output "state_op" {
   value = var.state
 }
 
-variable "environment" {
-  default = "main"
-}
+variable "environment" {}
 output "environment_op" {
   value = "Current environment is ${var.environment}"
 }

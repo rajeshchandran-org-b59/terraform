@@ -88,7 +88,7 @@ What is terraform.tfvars ?
     > When you delcare the variable values in this file, you don't have to explicitly mention this file as terraform picks "terraform.tfvars" by default
     > When you declare some value in dev.tfvars, qa.tfvars, prod.tfvars, then while running terraform commands, we need to mention that file
 
-How to run a tf command that has xyz.tfvars,
+How to run a tf command that has xyz.tfvas,
     $ terraform init ; terraform plan --var-file=dev.tfvars 
 
 How to run a tf command that has xyz.tfvas & cli varaibles,
@@ -96,3 +96,83 @@ How to run a tf command that has xyz.tfvas & cli varaibles,
 
 Variable Priority ?
     cliVariables > ***.tfvars > terraform.tfvars > terraform.auto.tfvars
+
+IMP Points to consider: 
+> When you use count, you'd be using "count.index"
+> If you're using for_each, you'd get  each.key , each.value 
+
+> When we learn anything, we keep on applying the 4 principles 
+
+```
+    1) Conditions 
+    2) Variables
+    3) Functions 
+    4) Loops 
+```
+
+Modules In Terraform:   
+    1) They help in keeping code DRY 
+    2) And at the same time, code can be re-used. 
+
+Modules In Terraform are of 2 types: 
+    1) Terraform registry modules ( readdily available )
+    2) Bulding your own modules
+
+`Terraform init is going to do 3 things`
+    1) Initialized the `backend`
+    2) Downloads the needed plugings
+    3) Initializes the modules
+
+Modules:    
+    1) Root Modules : From where you run the terraform commands
+    2) Child Module: The actual code 
+
+    Passing information between 2 child modules, cannot be done directly. It would be through root module
+
+        "x-module ---> RootModule ---> y-module"
+    Information from x-module to y-module would be done via rootModule in the form of outputs.
+
+    OUTPUT's play a very important role in passing the information between 2 modules.
+
+
+    > The Root Module
+        Every Terraform configuration has at least one module, known as its root module, which consists of the resources defined in the .tf files in the main working directory.
+
+    > Child Modules
+        A Terraform module (usually the root module of a configuration) can call other modules to include their resources into the configuration. A module that has been called by another module is often referred to as a child module.
+
+        Child modules can be called multiple times within the same configuration, and multiple configurations can use the same child module.
+
+
+> When using variables in modules:
+
+    Ensure you declare that the same empty variable as well in the module we are calling.
+
+    Rule of thumb, if you're using a variable in root module, that empty variable has to be declared in the child module, before you use and that where the data-transfer will happen. ( that's a way of receiving the data from the root module )
+
+        1) Declare the variable in the root module
+        2) Define the value for that in the root module
+        3) Declare empty variable with the same name 
+        4) Then use it in the backend module
+
+> How to retrieve the info from backend module to the root ? 
+    And that's where output comes up from.
+        1) Declare the needed item to be passed to root or another module as output and then supply as an input
+    
+> Argument vs Attrubute In terraform
+
+    Argument:
+        1) Properties needed to provision resource ( like instance_type, disk_size)
+    
+    Attributes:
+        1) Properties that comes up after the provisioning of resources ( Like private_ip, instance_id, arn )
+
+> Datasource: 
+        
+        1) Datasource helps in querying the information that's already available 
+
+> Provisioners In Terraform:
+
+        1) Local Provisioner      : When you want some action to be performed on the machine you're running terraform, then we use local provisioner
+        2) Remote Provisoner      : When you want some action to be performed on the you're provisioned, then we use remote provisioner
+        3) Connection Provisioner : To perform some action on the top of the newly provisoned machine, you need to enable a connection and that can be done via connection-provisioner
