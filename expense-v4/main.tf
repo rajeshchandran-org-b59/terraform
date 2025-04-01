@@ -1,7 +1,7 @@
 module "app" {
   for_each               = var.componets
   source                 = "./app"
-  ami                    = var.ami
+  ami                    = data.aws_ami.main.id
   instance_type          = each.value["instance_type"]
   vpc_security_group_ids = [data.aws_security_group.main.id]
   name                   = each.key
