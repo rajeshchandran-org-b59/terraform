@@ -4,7 +4,7 @@ data "aws_route53_zone" "main" {
 }
 
 data "aws_security_group" "main" {
-  name = "b59-allow-all"
+  name = "b59-security-group"
 }
 
 data "aws_ami" "main" {
