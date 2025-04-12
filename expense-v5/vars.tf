@@ -1,7 +1,7 @@
 variable "componets" {
   default = {
     mysql = {
-      instance_type = "t3.medium"
+      instance_type = "t2.micro"
 
     }
     backend = {
@@ -9,7 +9,7 @@ variable "componets" {
     }
 
     frontend = {
-      instance_type = "t3.micro"
+      instance_type = "t2.micro"
     }
   }
 }

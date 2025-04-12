@@ -1,17 +1,17 @@
 data "aws_route53_zone" "main" {
-  name         = "clouding-app.shop"
+  name         = "rajeshapps.site"
   private_zone = false
 }
 
 data "aws_security_group" "main" {
-  name = "b59-allow-all"
+  name = "b59-security-group"
 }
 
 data "aws_ami" "main" {
   most_recent = true
 
-  owners = ["355449129696"]
+  owners = ["self"]
   tags = {
-    Name = "DevOps-LabImage-RHEL9"
+    Name = "b59-LabImage-Rajesh"
   }
 }

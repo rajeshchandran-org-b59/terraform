@@ -176,3 +176,88 @@ Modules:
         1) Local Provisioner      : When you want some action to be performed on the machine you're running terraform, then we use local provisioner
         2) Remote Provisoner      : When you want some action to be performed on the you're provisioned, then we use remote provisioner
         3) Connection Provisioner : To perform some action on the top of the newly provisoned machine, you need to enable a connection and that can be done via connection-provisioner
+            > Note: 
+                * Provisioners should always be with in the resource.
+                * Provisioners are always create time provisioners, that means they will only be executed on the resource during the creation time only. And when you run this for the second time, provisioners won't be executed.
+                * To make it run all the time, we can use triggers  
+              
+> What is terraform state ?
+```
+    Terraform state is a file that keeps track of the infrastructure Terraform manages. 
+    It records resource attributes, dependencies, and metadata. 
+    Terraform uses this state to determine changes needed when applying configurations. 
+    The state file can be stored locally or remotely for collaboration. 
+    Managing state properly is crucial to avoid conflicts and unintended changes.
+```
+
+> When you're running Terraform Plan, what exactly is happening ?
+```
+    1) Terraform reads what properties are there for the xyz resources from the state file
+    2) Terraform compiles the *.tf files and then it also validates whether what we have on the code vs what is there on the state file vs what is there on the provisioned infrastructure
+    3) If there is a change, terraform consider what is there on the CODE as the source of truth.
+```
+
+> If you lost the state file, what will happen ?
+
+    ``` 1) Terraform loses track of evertying and technically it's bad event ```
+
+> Organizing staefile !!!!
+
+```
+        What will happen if you store the statefile locally on your machine ?
+
+            1) If you store the Terraform state file (terraform.tfstate) locally, the following will happen:
+
+            2) Limited Collaboration – Other team members won’t have access to the latest state, leading to potential conflicts.
+
+            3) Risk of Loss – If the local machine crashes or the file is accidentally deleted, the state is lost.
+
+            4) Security Concerns – Sensitive data (like credentials or secrets) may be stored in the state file, posing a security risk if not encrypted.
+            5) Manual Backups Required – You’ll need to manually back up the state file to prevent data loss.
+
+                    Locks Not Available – Without remote state locking (like in Terraform Cloud or S3 + DynamoDB), multiple users running Terraform at the same time may cause conflicts.
+```
+
+> We should also have a strategy to organize the state in a secure and reliable approach
+```
+    1) If you're using opensource terraform and on AWS, we can organize them on S3 Buckets
+    2) Make sure, we use Enryption Keys to enrypt the data on S3 bucket
+    3) Also ensure, very limited ppl have write access to the bucket 
+    4) Ensure verisoning is enabled on S3.
+```
+
+> When you have multiple environments, then organizing state is very important. 
+    `We can supply the backend config in separate files , refer 12-remote-state-multi-env/`
+
+> What Terraform Init Does ?
+```
+    1) Initialize the backed
+    2) Initialize the plugins
+    3) Initialize the modules 
+```
+
+> How to initialize the terraform code that has backend's config define in a separate file
+```
+    $ terraform init  -backend-config=env-dev/state.tfvars -var-file=env-dev/main.tfvars; 
+    $ terraform plan -var-file=env-dev/main.tfvars 
+    $ terraform apply -var-file=env-dev/main.tfvars -auto-approve
+```
+
+> How do we organize the terraform code ?
+
+    1) We will maintain all the child modules in a separate repo ( tf-module-app/ : backend module)
+    2) Root module in a separate repo  (expense-terraform/: root module)
+
+# expense-terraform
+
+This is the root module for the expense-app infrastructure
+
+Code Style:
+    1) terraform fmt --recursive 
+    2) terraform validate  ( This validates whether your code is valid or not )
+
+> Make sure to create an ami in your account using this as image "DevOps-LabImage-RHEL9" as the base image
+Steps:
+    1) Create machine using this lab image "DevOps-LabImage-RHEL9"
+    2) Install ansible on this instance "pip3.11 install ansible -y"
+    3) Create AMI "b59-learning-ami-with-ansible" ( use this going forward)
